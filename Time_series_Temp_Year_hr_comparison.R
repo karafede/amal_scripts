@@ -65,7 +65,7 @@ site_Temp <- NULL
 
 i <- 4
 
- for (i in 1:n) {   # this is a time
+for (i in 1:n) {   # this is a time
   
   WRF_STACK_Temp_ORIGINAL <- raster("C:/Users/aaldababseh/WRF_PostProcessing_DATA/Test2_May_LC/Original/T_2060_May_Original_Hourly.tif", band = i)
   plot(WRF_STACK_Temp_ORIGINAL)
@@ -76,7 +76,7 @@ i <- 4
   SITE_Temp <- as.data.frame(STATIONS_COORDS$station)
   site_Temp <- rbind(site_Temp, SITE_Temp)
   
- }
+}
 
 extracted_WRF_Temp <- cbind(DateTime_Temp, extracted_WRF_Temp, site_Temp)
 colnames(extracted_WRF_Temp) <- c("DateTime", "WRF_Temp_ORIGINAL", "station")
@@ -183,8 +183,8 @@ library(ggplot2)
 
 # merge extracted WRF-data ORIGINAL + LC --------------------------------------------
 
-extracted_WRF_Temp_LC <- read.csv("C:/Users/aaldababseh/WRF_PostProcessing_DATA/Test2_May_LC/LC2/extracted_WRF_Temp_LC.csv")
-extracted_WRF_Temp_ORIGINAL <- read.csv("C:/Users/aaldababseh/WRF_PostProcessing_DATA/Test2_May_LC/Original2/extracted_WRF_Temp_ORIGINAL.csv")
+extracted_WRF_Temp_LC <- read.csv("C:/Users/aaldababseh/WRF_PostProcessing_DATA/Test2_May_LC/LC/extracted_WRF_Temp_LC.csv")
+extracted_WRF_Temp_ORIGINAL <- read.csv("C:/Users/aaldababseh/WRF_PostProcessing_DATA/Test2_May_LC/Original/extracted_WRF_Temp_ORIGINAL.csv")
 
 
 
@@ -224,9 +224,8 @@ plot <- ggplot(all_WRF_Temp_data, aes(DateTime, WRF_Temp_ORIGINAL)) +
         axis.text.y  = element_text(angle=0, vjust=0.5, size=7, colour = "black")) +
   ylim(15, 45)
 plot
-  
 
-  
+
 
 
 # get data from smooth fit curve --------------------------------------------
@@ -235,16 +234,16 @@ plot
 
 AAA <- all_WRF_Temp_data %>%
   dplyr::select(DateTime,
-         WRF_Temp_ORIGINAL,
-         WRF_Temp_LC)
+                WRF_Temp_ORIGINAL,
+                WRF_Temp_LC)
 
 AAA$DateTime <- as.numeric(AAA$DateTime)  # need Date to be numeric
 
 smoothed_curve_ORIGINAL <- predict(loess(WRF_Temp_ORIGINAL ~ DateTime , AAA),
-               AAA$DateTime)
+                                   AAA$DateTime)
 
 smoothed_curve_LC <- predict(loess(WRF_Temp_LC ~ DateTime , AAA),
-                                   AAA$DateTime)
+                             AAA$DateTime)
 
 
 
